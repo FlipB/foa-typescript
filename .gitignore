@@ -1,0 +1,11 @@
+!*
+nbproject
+node_modules
+dist
+typings/cakejs.d.ts
+tmp
+*.log
+*.pid
+*.seed
+.grunt
+.lock-wscript

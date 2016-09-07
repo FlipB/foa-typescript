@@ -1,0 +1,35 @@
+{
+  "name": "foa-winston-management",
+  "version": "0.8.0",
+  "description": "Waterfall project management system",
+  "main": "dist/index.js",
+  "scripts": {
+    "app": "node ./npm_app.js",
+    "compile": "node ./npm_compile.js",
+    "clean": "node ./npm_clean.js",
+    "test": "node ./npm_test.js",
+    "postinstall": "node ./npm_postinstall.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tiinusen/foa-winston-management.git"
+  },
+  "keywords": [
+    "foa",
+    "winston",
+    "waterfall"
+  ],
+  "author": "Tiinusen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Tiinusen/foa-winston-management/issues"
+  },
+  "homepage": "https://github.com/Tiinusen/foa-winston-management#readme",
+  "dependencies": {
+    "dotaccess": "^1.0.5",
+    "mocha": "^3.0.2",
+    "rimraf": "^2.5.4",
+    "sprintf-js": "^1.0.3",
+    "typescript": "^1.8.10"
+  }
+}
