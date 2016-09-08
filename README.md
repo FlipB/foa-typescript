@@ -1,4 +1,4 @@
-# FOAs Winston Management (foa-winston-management)
+# FOAs Typescript Framework (foa-typescript)
 
 [![MIT License](https://img.shields.io/npm/l/foa-typescript.svg?style=square)](LICENSE)
 [![Travis CI](https://travis-ci.org/Tiinusen/foa-typescript.svg?branch=master)](https://travis-ci.org/Tiinusen/foa-typescript)
@@ -9,11 +9,8 @@ Lightweight typescript framework providing basic namespacing and testing. Good f
 
 ## Creating a project using foa-typescript
 
-(Work in progress)
-
 ```bash
 $ npm init
 (Provide required information)
 $ npm install --save Tiinusen/foa-typescript
-$ node_modules/bin/foa-typescript create
 ```
