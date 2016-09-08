@@ -1,0 +1,10 @@
+tmp/
+dist/
+node_modules/
+.vscode/
+.gitignore
+.gitattributes
+.git
+.travis.sql
+.travis.yml
+Makefile
