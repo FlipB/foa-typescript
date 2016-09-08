@@ -31,7 +31,7 @@ if (process.argv.length > 0) {
 }
 
 if (!fs.existsSync(Environment.TESTS) || !fs.existsSync(path.resolve(Environment.TESTS))) {
-    console.log("No tests to run");
+    console.log("  No tests to run");
     process.exit(0);
 }
 

@@ -40,33 +40,37 @@ function walkFolders(folderPath, files) {
     }
 }
 
-var typingParts = [];
-if (fs.existsSync(path.resolve(process.cwd(), 'dist', 'src', 'Core'))) {
-    var objectList = walkFolders(path.resolve(process.cwd(), 'dist', 'src', 'Core'));
+if (process.cwd() === __dirname) {
+    var typingParts = [];
+    var objectList = walkFolders(path.resolve(__dirname, 'dist', 'src'));
     for (var namespace in objectList) {
         var filepath = objectList[namespace];
         namespace = "Core/" + namespace;
         var content = fs.readFileSync(filepath).toString().trim();
         if (content.length > 0) {
             content = 'declare module "' + namespace + '" {\n' +
-                content.replace(/declare /g, '') +
-                '}';
+            content.replace(/declare /g, '') +
+            '}';
             typingParts.push(content);
         }
     }
-}
-if (fs.existsSync(path.resolve(process.cwd(), 'dist', 'src', 'App'))) {
-    var objectList = walkFolders(path.resolve(process.cwd(), 'dist', 'src', 'App'));
-    for (var namespace in objectList) {
-        var filepath = objectList[namespace];
-        namespace = "App/" + namespace;
-        var content = fs.readFileSync(filepath).toString().trim();
-        if (content.length > 0) {
-            content = 'declare module "' + namespace + '" {\n' +
+
+    fs.writeFileSync(path.resolve(__dirname, 'typings', 'core.d.ts'), typingParts.join("\n"));
+} else {
+    if (fs.existsSync(path.resolve(process.cwd(), 'dist', 'src'))) {
+        var typingParts = [];
+        var objectList = walkFolders(path.resolve(process.cwd(), 'dist', 'src'));
+        for (var namespace in objectList) {
+            var filepath = objectList[namespace];
+            namespace = "App/" + namespace;
+            var content = fs.readFileSync(filepath).toString().trim();
+            if (content.length > 0) {
+                content = 'declare module "' + namespace + '" {\n' +
                 content.replace(/declare /g, '') +
                 '}';
-            typingParts.push(content);
+                typingParts.push(content);
+            }
         }
+        fs.writeFileSync(path.resolve(process.cwd(), 'typings', 'app.d.ts'), typingParts.join("\n"));
     }
 }
-fs.writeFileSync(path.resolve(process.cwd(), 'typings', 'app.d.ts'), typingParts.join("\n"));

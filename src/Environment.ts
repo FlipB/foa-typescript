@@ -27,7 +27,7 @@ export class Environment {
     }
 
     public static get CORE(): string {
-        return this.getEnv('CORE', path.resolve(this.ROOT, 'dist', 'src', 'Core'));
+        return path.resolve(this.CORE_PATH, 'dist', 'src');
     }
 
     public static set CORE(value: string) {
@@ -35,26 +35,15 @@ export class Environment {
     }
 
     public static get APP(): string {
-        return this.getEnv('APP', path.resolve(this.ROOT, 'dist', 'src', 'App'));
+        return this.getEnv('APP', path.resolve(this.ROOT, 'dist', 'src'));
     }
 
     public static set APP(value: string) {
         this.setEnv('APP', value);
     }
 
-    public static get CACHE(): string {
-        return this.getEnv('CACHE', path.resolve(this.TMP, 'cache'));
-    }
-    public static set CACHE(value: string) {
-        this.setEnv('CACHE', value);
-    }
-
-    public static get LOGS(): string {
-        return this.getEnv('LOGS', path.resolve(this.TMP, 'logs'));
-    }
-
-    public static set LOGS(value: string) {
-        this.setEnv('LOGS', value);
+    public static get CORE_PATH(): string {
+        return path.resolve(__dirname, '..', '..');
     }
 
     public static get ROOT(): string {
@@ -68,31 +57,9 @@ export class Environment {
     public static get TESTS(): string {
         return this.getEnv('TESTS', path.resolve(this.ROOT, 'dist', 'tests'));
     }
+
     public static set TESTS(value: string) {
         this.setEnv('TESTS', value);
-    }
-
-    public static get TMP(): string {
-        return this.getEnv('TMP', path.resolve(this.ROOT, 'tmp'));
-    }
-    public static set TMP(value: string) {
-        this.setEnv('TMP', value);
-    }
-
-    public static get WWW_ROOT(): string {
-        return this.getEnv('WWW_ROOT', path.resolve(this.ROOT, 'webroot'));
-    }
-
-    public static set WWW_ROOT(value: string) {
-        this.setEnv('WWW_ROOT', value);
-    }
-
-    public static get CONFIG(): string {
-        return this.getEnv('CONFIG', path.resolve(this.ROOT, 'config'));
-    }
-
-    public static set CONFIG(value: string) {
-        this.setEnv('CONFIG', value);
     }
     
     public static get TIME_START(): Date {
@@ -108,12 +75,9 @@ export class Environment {
         [
             "CORE",
             "APP",
-            "LOGS",
+            "CORE_PATH",
             "ROOT",
             "TESTS",
-            "TMP",
-            "WWW_ROOT",
-            "CONFIG",
             "TIME_START"
         ].forEach(name => {
             output.push(name + " = '" + this[name].toString() + "'");

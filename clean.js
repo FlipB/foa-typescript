@@ -16,8 +16,7 @@ var fs = require('fs');
 var path = require('path');
 var rimraf  = require('rimraf');
 
-var filepath = path.resolve(__dirname, 'dist');
-
+var filepath = path.resolve(process.cwd(), 'dist');
 if (fs.existsSync(filepath)) {
     rimraf(filepath,function(){
         process.exit(0);

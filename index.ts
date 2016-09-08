@@ -9,6 +9,6 @@
  * @link        https://github.com/Tiinusen/foa-typescript
  * @license     http://www.opensource.org/licenses/mit-license.php MIT License
  */
- 
-export var Environment = require('./src/Core/Environment').Environment;
-export var RequireHook = require('./src/Core/RequireHook').RequireHook;
+import * as path  from 'path';
+export var Environment = require(path.resolve(__dirname,'src','Environment')).Environment;
+export var RequireHook = require(path.resolve(__dirname,'src','RequireHook')).RequireHook;

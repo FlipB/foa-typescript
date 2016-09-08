@@ -20,10 +20,10 @@ function exec(cmd, params, statusFail, cwd) {
     params = typeof params !== 'object' ? [] : params;
     statusFail = typeof statusFail !== 'boolean' ? false : statusFail;
     cwd = typeof cwd !== 'undefined' ? cwd : process.cwd();
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         try {
-            var ls = spawn(cmd, params, { stdio: "inherit", cwd: cwd });
-            ls.on('exit', function(code) {
+            var ls = spawn(cmd, params, { stdio: statusFail ? 'inherit' : 'ignore', cwd: cwd });
+            ls.on('exit', function (code) {
                 if (code !== 0 && statusFail) {
                     reject();
                 } else {
@@ -36,17 +36,17 @@ function exec(cmd, params, statusFail, cwd) {
     });
 }
 
-var promiseChain = new Promise(function(resolve) {
+var promiseChain = new Promise(function (resolve) {
     resolve();
 });
 if (!fs.existsSync(path.resolve(__dirname, 'dist')) && fs.existsSync(path.resolve(__dirname, 'src'))) {
-    promiseChain = promiseChain.then(function() {
+    promiseChain = promiseChain.then(function () {
         return exec("node", [
             "--nolazy",
             "--use_strict",
             path.resolve(__dirname, "compile.js")
         ], false, __dirname);
-    }).then(function() {
+    }).then(function () {
         return exec("node", [
             "--nolazy",
             "--use_strict",
@@ -56,12 +56,95 @@ if (!fs.existsSync(path.resolve(__dirname, 'dist')) && fs.existsSync(path.resolv
 }
 
 if (/node_modules$/.test(path.resolve(__dirname, '..'))) {
-    promiseChain = promiseChain.then(function() {
-        return new Promise(function(resolve, reject) {
+    promiseChain = promiseChain.then(function () {
+        return new Promise(function (resolve, reject) {
             try {
                 var moduleNamePath = __dirname.replace(/\\/g, '/').split('/');
                 var moduleName = moduleNamePath[moduleNamePath.length - 1];
                 if (fs.existsSync(path.resolve(__dirname, '..', '..', 'package.json'))) {
+                    if (!fs.existsSync(path.resolve(__dirname, '..', '..', 'npm_app.js'))) {
+                        fs.writeFileSync(path.resolve(__dirname, '..', '..', 'npm_app.js'),
+                            [
+                                "#!/usr/bin/env node",
+                                'var util = require("util");',
+                                'var path = require("path");',
+                                'var spawn = require("child_process").spawn;',
+                                'function exec(cmd, params, statusFail, cwd) {',
+                                '    params = typeof params !== "object" ? [] : params;',
+                                '    statusFail = typeof statusFail !== "boolean" ? false : statusFail;',
+                                '    cwd = typeof cwd !== "undefined" ? cwd : process.cwd();',
+                                '    return new Promise(function (resolve, reject) {',
+                                '        try {',
+                                '            var ls = spawn(cmd, params, { stdio: statusFail ? \'inherit\' : \'ignore\', cwd: cwd });',
+                                '            ls.on("exit", function (code) {',
+                                '                if (code !== 0 && statusFail) {',
+                                '                    reject();',
+                                '                } else {',
+                                '                    resolve();',
+                                '                }',
+                                '            });',
+                                '        } catch (e) {',
+                                '            reject(e);',
+                                '        }',
+                                '    });',
+                                '}',
+                                '',
+                                'exec("node",[',
+                                '    "--nolazy",',
+                                '    "--use_strict",',
+                                '    path.resolve(__dirname, "node_modules","' + moduleName + '","clean.js")',
+                                ']).then(function () {',
+                                '    return exec("node",[',
+                                '        "--nolazy",',
+                                '        "--use_strict",',
+                                '    path.resolve(__dirname, "node_modules","' + moduleName + '","compile.js")',
+                                '    ]);',
+                                '}).then(function () {',
+                                '    return exec("node",[',
+                                '        "--nolazy",',
+                                '        "--use_strict",',
+                                '    path.resolve(__dirname, "node_modules","' + moduleName + '","exclude.js")',
+                                '    ]);',
+                                '}).then(function () {',
+                                '    return exec("node",[',
+                                '        "--nolazy",',
+                                '        "--use_strict",',
+                                '    path.resolve(__dirname, "node_modules","' + moduleName + '","typing.js")',
+                                '    ]);',
+                                '}).then(function () {',
+                                '    return exec("node",[',
+                                '        "--nolazy",',
+                                '        "--use_strict",',
+                                '        path.resolve(__dirname,"dist","app.js")',
+                                '    ], true);',
+                                '}).then(function(){',
+                                '    process.exit(0);',
+                                '}).catch(function(){',
+                                '    process.exit(1);',
+                                '})'
+                            ].join("\n"));
+                    }
+
+                    if (!fs.existsSync(path.resolve(__dirname, '..', '..', 'app.ts'))) {
+                        fs.writeFileSync(path.resolve(__dirname, '..', '..', 'app.ts'),
+                            [
+                                "require('foa-typescript');",
+                                "",
+                                "import { Environment } from 'Core/Environment';",
+                                "",
+                                "console.log(Environment);",
+                                "process.exit(0)"
+                            ].join("\n"));
+                    }
+
+                    if (!fs.existsSync(path.resolve(__dirname, '..', '..', 'npm_clean.js'))) {
+                        fs.writeFileSync(path.resolve(__dirname, '..', '..', 'npm_clean.js'), [
+                            "#!/usr/bin/env node",
+                            "var path = require('path');",
+                            "require(path.resolve(__dirname,'node_modules','" + moduleName + "', 'npm_clean'));"
+                        ].join("\n"));
+                    }
+
                     if (!fs.existsSync(path.resolve(__dirname, '..', '..', 'npm_compile.js'))) {
                         fs.writeFileSync(path.resolve(__dirname, '..', '..', 'npm_compile.js'), [
                             "#!/usr/bin/env node",
@@ -78,15 +161,28 @@ if (/node_modules$/.test(path.resolve(__dirname, '..'))) {
                         ].join("\n"));
                     }
 
+                    if (!fs.existsSync(path.resolve(__dirname, '..', '..', 'src'))) {
+                        fs.mkdirSync(path.resolve(__dirname, '..', '..', 'src'));
+                    }
+
                     var json = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..', 'package.json')).toString());
                     if (!('scripts' in json)) {
                         json["scripts"] = {};
+                    }
+                    if (!('app' in json["scripts"])) {
+                        json["scripts"]["app"] = "node ./npm_app.js";
+                    }
+                    if (!('clean' in json["scripts"])) {
+                        json["scripts"]["clean"] = "node ./npm_clean.js";
                     }
                     if (!('compile' in json["scripts"])) {
                         json["scripts"]["compile"] = "node ./npm_compile.js";
                     }
                     if (!('test' in json["scripts"]) || json["scripts"]["test"] === 'echo \"Error: no test specified\" && exit 1') {
                         json["scripts"]["test"] = "node ./npm_test.js";
+                        if (!fs.existsSync(path.resolve(__dirname, '..', '..', 'tests'))) {
+                            fs.mkdirSync(path.resolve(__dirname, '..', '..', 'tests'));
+                        }
                     }
                     fs.writeFileSync(path.resolve(__dirname, '..', '..', 'package.json'), JSON.stringify(json));
 
@@ -150,18 +246,22 @@ if (/node_modules$/.test(path.resolve(__dirname, '..'))) {
                                 {
                                     "name": "App",
                                     "type": "node",
-                                    "program": "${workspaceRoot}/node_modules/" + moduleName + "/dist/app.js",
+                                    "program": "${workspaceRoot}/app.ts",
                                     "stopOnEntry": false,
                                     "args": [],
                                     "cwd": "${workspaceRoot}/.",
                                     "runtimeExecutable": null,
-                                    "runtimeArgs": ["--nolazy", "--use_strict"],
+                                    "runtimeArgs": [
+                                        "--nolazy",
+                                        "--use_strict",
+                                    ],
                                     "env": {
                                         "NODE_ENV": "development"
                                     },
                                     "sourceMaps": true,
-                                    "outDir": null,
-                                    "preLaunchTask": "npm"
+                                    "externalConsole": false,
+                                    "outDir": "${workspaceRoot}/dist",
+                                    "preLaunchTask": "compile"
                                 },
                                 {
                                     "name": "Test",
@@ -184,9 +284,15 @@ if (/node_modules$/.test(path.resolve(__dirname, '..'))) {
                     }
 
                     if (!fs.existsSync(path.resolve(__dirname, '..', '..', '.vscode', 'settings.json'))) {
-                        json = {
-                            "typescript.tsdk": "./node_modules/typescript/lib"
-                        };
+                        if (!fs.existsSync(path.resolve(__dirname, '..', '..', 'node_modules', 'typescript'))) {
+                            json = {
+                                "typescript.tsdk": "./node_modules/" + moduleName + "/node_modules/typescript/lib"
+                            };
+                        } else {
+                            json = {
+                                "typescript.tsdk": "./node_modules/typescript/lib"
+                            };
+                        }
                         fs.writeFileSync(path.resolve(__dirname, '..', '..', '.vscode', 'settings.json'), JSON.stringify(json));
                     }
 
@@ -198,7 +304,7 @@ if (/node_modules$/.test(path.resolve(__dirname, '..'))) {
                             "showOutput": "silent",
                             "tasks": [
                                 {
-                                    "taskName": "npm",
+                                    "taskName": "compile",
                                     "suppressTaskName": true,
                                     "args": ["run", "compile"],
                                     "isBuildCommand": true
@@ -217,8 +323,8 @@ if (/node_modules$/.test(path.resolve(__dirname, '..'))) {
     });
 }
 
-promiseChain.then(function() {
+promiseChain.then(function () {
     process.exit(0);
-}).catch(function(e) {
+}).catch(function (e) {
     process.exit(1);
 });

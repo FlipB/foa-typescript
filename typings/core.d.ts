@@ -5,13 +5,9 @@ export class Environment {
     private static getEnv(name, defaultValue?);
     static CORE: string;
     static APP: string;
-    static CACHE: string;
-    static LOGS: string;
+    static CORE_PATH: string;
     static ROOT: string;
     static TESTS: string;
-    static TMP: string;
-    static WWW_ROOT: string;
-    static CONFIG: string;
     static TIME_START: Date;
     static inspect(): string;
 }}
@@ -24,7 +20,7 @@ declare module "Core/Exception/Exception" {
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright   Copyright (c) 2016 Tiinusen
- * @link        https://github.com/Tiinusen/foa-winston-management
+ * @link        https://github.com/Tiinusen/foa-typescript
  * @license     http://www.opensource.org/licenses/mit-license.php MIT License
  */
 export class Exception extends Error {
@@ -52,7 +48,7 @@ declare module "Core/TestSuite/Exception/AssertionException" {
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright   Copyright (c) 2016 Tiinusen
- * @link        https://github.com/Tiinusen/foa-winston-management
+ * @link        https://github.com/Tiinusen/foa-typescript
  * @license     http://www.opensource.org/licenses/mit-license.php MIT License
  */
 export class AssertionException extends Error {
@@ -150,7 +146,7 @@ declare module "Core/Utility/Object" {
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright   Copyright (c) 2016 Tiinusen
- * @link        https://github.com/Tiinusen/foa-winston-management
+ * @link        https://github.com/Tiinusen/foa-typescript
  * @license     http://www.opensource.org/licenses/mit-license.php MIT License
  */
 /**
@@ -177,22 +173,7 @@ declare module "Core/Utility/String" {
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright   Copyright (c) 2016 Tiinusen
- * @link        https://github.com/Tiinusen/foa-winston-management
+ * @link        https://github.com/Tiinusen/foa-typescript
  * @license     http://www.opensource.org/licenses/mit-license.php MIT License
  */
 export { sprintf } from 'sprintf-js';}
-declare module "App/Service/TestService" {
-/**
- * Copyright (c) 2016 Tiinusen
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright   Copyright (c) 2016 Tiinusen
- * @link        https://github.com/Tiinusen/foa-winston-management
- * @license     http://www.opensource.org/licenses/mit-license.php MIT License
- */
-export class TestService {
-    static a(): number;
-}}

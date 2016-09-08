@@ -21,7 +21,7 @@ function exec(cmd, params, statusFail, cwd) {
     cwd = typeof cwd !== 'undefined' ? cwd : process.cwd();
     return new Promise(function (resolve, reject) {
         try {
-            var ls = spawn(cmd, params, {stdio: "inherit", cwd: cwd});
+            var ls = spawn(cmd, params, { stdio: statusFail ? 'inherit' : 'ignore', cwd: cwd });
             ls.on('exit', function (code) {
                 if (code !== 0 && statusFail) {
                     reject();
@@ -44,6 +44,12 @@ exec("node",[
         "--nolazy",
         "--use_strict",
         path.resolve(__dirname,"compile.js")
+    ]);
+}).then(function () {
+    return exec("node",[
+        "--nolazy",
+        "--use_strict",
+        path.resolve(__dirname,"exclude.js")
     ]);
 }).then(function () {
     return exec("node",[

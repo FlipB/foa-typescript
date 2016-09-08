@@ -4,7 +4,6 @@
   "description": "Waterfall project management system",
   "main": "dist/index.js",
   "scripts": {
-    "app": "node ./npm_app.js",
     "compile": "node ./npm_compile.js",
     "clean": "node ./npm_clean.js",
     "test": "node ./npm_test.js",

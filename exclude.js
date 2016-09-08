@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * Copyright (c) 2016 Tiinusen
  * 
@@ -10,13 +12,14 @@
  * @license     http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-import { TestCase } from 'Core/TestSuite/TestCase';
-import { TestService } from 'App/Service/TestService';
+var fs = require('fs');
+var path = require('path');
+var rimraf  = require('rimraf');
 
-export class SpecialTestCase extends TestCase
-{
-    testC()
-    {
-        this.assertEquals(1,TestService.a());
-    }
+var filepath = path.resolve(process.cwd(), 'dist', 'node_modules');
+
+if (fs.existsSync(filepath)) {
+    rimraf(filepath,function(){
+        process.exit(0);
+    });
 }
