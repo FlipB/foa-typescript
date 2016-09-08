@@ -1,7 +1,7 @@
 {
-  "name": "foa-winston-management",
+  "name": "foa-typescript",
   "version": "0.8.0",
-  "description": "Waterfall project management system",
+  "description": "FOAs Typescript Framework",
   "main": "dist/index.js",
   "scripts": {
     "compile": "node ./npm_compile.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tiinusen/foa-winston-management.git"
+    "url": "git+https://github.com/Tiinusen/foa-typescript.git"
   },
   "keywords": [
     "foa",
@@ -21,9 +21,9 @@
   "author": "Tiinusen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Tiinusen/foa-winston-management/issues"
+    "url": "https://github.com/Tiinusen/foa-typescript/issues"
   },
-  "homepage": "https://github.com/Tiinusen/foa-winston-management#readme",
+  "homepage": "https://github.com/Tiinusen/foa-typescript#readme",
   "dependencies": {
     "dotaccess": "^1.0.5",
     "mocha": "^3.0.2",
