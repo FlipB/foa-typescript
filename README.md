@@ -15,5 +15,5 @@ Lightweight typescript framework providing basic namespacing and testing. Good f
 ```bash
 $ npm init
 (Provide required information)
-$ npm install --save Tiinusen/foa-typescript
+$ npm install --save foa-typescript
 ```
