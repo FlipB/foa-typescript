@@ -1,8 +1,8 @@
 build:
-	@bin/cakejs build > /dev/null
+	@npm run compile > /dev/null
 
 test-build:
-	@bin/cakejs -c test > /dev/null
+	@npm test > /dev/null
 
 define release
 	VERSION=`node -pe "require('./package.json').version"` && \
