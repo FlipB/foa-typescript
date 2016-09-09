@@ -86,6 +86,7 @@ export class Environment {
             "CORE_PATH",
             "ROOT",
             "TESTS",
+            "CONFIG",
             "TIME_START"
         ].forEach(name => {
             output.push(name + " = '" + this[name].toString() + "'");
