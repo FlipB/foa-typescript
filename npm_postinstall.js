@@ -137,6 +137,22 @@ if (/node_modules$/.test(path.resolve(__dirname, '..'))) {
                             ].join("\n"));
                     }
 
+                    if (!fs.existsSync(path.resolve(__dirname, '..', '..', '.gitignore'))) {
+                        fs.writeFileSync(path.resolve(__dirname, '..', '..', '.gitignore'), [
+                            "!*",
+                            "nbproject",
+                            "node_modules",
+                            "dist",
+                            "typings/app.d.ts",
+                            "tmp",
+                            "*.log",
+                            "*.pid",
+                            "*.seed",
+                            ".grunt",
+                            ".lock-wscript"
+                        ].join("\n"));
+                    }
+
                     if (!fs.existsSync(path.resolve(__dirname, '..', '..', 'npm_clean.js'))) {
                         fs.writeFileSync(path.resolve(__dirname, '..', '..', 'npm_clean.js'), [
                             "#!/usr/bin/env node",
