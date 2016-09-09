@@ -8,7 +8,7 @@
 
 FOAs Typescript
 
-Lightweight typescript framework providing basic namespacing and testing. Good for typescript projects without anything. 
+Lightweight typescript framework providing basic namespacing and testing. 
 
 ## Creating a project using foa-typescript
 
