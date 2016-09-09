@@ -61,6 +61,14 @@ export class Environment {
     public static set TESTS(value: string) {
         this.setEnv('TESTS', value);
     }
+
+    public static get CONFIG(): string {
+        return this.getEnv('CONFIG', path.resolve(this.ROOT, 'config'));
+    }
+
+    public static set CONFIG(value: string) {
+        this.setEnv('CONFIG', value);
+    }
     
     public static get TIME_START(): Date {
         return this.getEnv('TIME_START');

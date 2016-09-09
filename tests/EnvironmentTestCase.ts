@@ -13,4 +13,9 @@ export class EnvironmentTestCase extends TestCase
     {
         this.assertEquals(path.resolve(__filename,'..','..','..','dist','src'),Environment.APP);
     }
+
+    testConfig()
+    {
+        this.assertEquals(path.resolve(__filename,'..','..','..','config'),Environment.CONFIG);
+    }
 } 

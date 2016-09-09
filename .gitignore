@@ -2,7 +2,7 @@
 nbproject
 node_modules
 dist
-typings/cakejs.d.ts
+typings/core.d.ts
 tmp
 *.log
 *.pid

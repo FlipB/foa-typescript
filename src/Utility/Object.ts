@@ -42,7 +42,7 @@ export function clone(source:any, destination ?:any){
  * @param { Object } args Objects to be merged
  * @return { Object } Merged object
  */
-export function merge(){
+export function merge(arg1?, arg2?, arg3?){
     let args = arguments;
 	var newObject = {};
 	for(var arg of args){
