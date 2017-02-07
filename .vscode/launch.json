@@ -1,36 +1,45 @@
 {
-	"version": "0.1.0",
-	"configurations": [
-		{
-			"name": "App",
-			"type": "node",
-			"program": "${workspaceRoot}/dist/app.js",
-			"stopOnEntry": false,
-			"args": [],
-			"cwd": "${workspaceRoot}/.",
-			"runtimeExecutable": null,
-			"runtimeArgs": ["--nolazy", "--use_strict"],
-			"env": {
-				"NODE_ENV": "development"
-			},
-			"sourceMaps": true,
-			"outDir": null,
-            "preLaunchTask": "npm"
-		},
+    "version": "1.0.0",
+    "configurations": [
         {
-			"name": "Test",
-			"type": "node",
-			"program": "${workspaceRoot}/npm_test.js",
-			"stopOnEntry": false,
-			"args": [],
-			"cwd": "${workspaceRoot}/.",
-			"runtimeExecutable": null,
-			"runtimeArgs": ["--nolazy", "--use_strict"],
-			"env": {
-				"NODE_ENV": "development"
-			},
-			"sourceMaps": true,
-			"outDir": null
-		}
-	]
+            "name": "App",
+            "request": "launch",
+            "type": "node",
+            "program": "${workspaceRoot}/app.ts",
+            "stopOnEntry": false,
+            "args": [],
+            "cwd": "${workspaceRoot}/.",
+            "runtimeExecutable": null,
+            "runtimeArgs": [
+                "--nolazy",
+                "--use_strict"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "sourceMaps": true,
+            "console": "internalConsole",
+            "outFiles": [ "${workspaceRoot}/dist/**" ],
+            "preLaunchTask": "compile"
+        },
+        {
+            "name": "Test",
+            "request": "launch",
+            "type": "node",
+            "program": "${workspaceRoot}/npm_test.js",
+            "stopOnEntry": false,
+            "args": [],
+            "cwd": "${workspaceRoot}/.",
+            "runtimeExecutable": null,
+            "runtimeArgs": [
+                "--nolazy",
+                "--use_strict"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "sourceMaps": true,
+            "outFiles": [ ]
+        }
+    ]
 }
